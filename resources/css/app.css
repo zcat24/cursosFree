@@ -1,0 +1,17 @@
+@import "@fortawesome/fontawesome-free/css/all.css";
+
+.mover-derecha {
+    transform: translateX(50px);
+}
+
+a:hover {
+    border-bottom: 2px solid rgb(2, 207, 2);
+    text-decoration: none;
+    color: #000;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
