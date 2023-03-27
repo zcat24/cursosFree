@@ -25,7 +25,7 @@
                                 </h6>
                                 <p class="card-text">{{ $curso->descripcion }}</p>
                                 <div class="text-center">
-                                    <a class="btn btn-success" href="{{ route('registro') }}">
+                                    <a class="btn btn-success" href="{{ route('registro', ['id' => $curso->id]) }}">
                                         Solicitar mas información</a>
                                 </div>
                             </div>
