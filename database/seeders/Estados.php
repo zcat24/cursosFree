@@ -14,8 +14,14 @@ class Estados extends Seeder
     public function run(): void
     {
         AdminEstados::create([
+            'nombre' => 'Solicitado',
+            'activo' => true
+        ]);
+        
+        AdminEstados::create([
             'nombre' => 'Comprado',
             'activo' => true
         ]);
+
     }
 }

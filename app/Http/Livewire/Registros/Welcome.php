@@ -14,7 +14,7 @@ class Welcome extends Component
 
     public function render()
     {
-        $consulta = Cursos::where('activo', true)->paginate(10);
+        $consulta = Cursos::where('activo', true)->paginate(3);
         return view('livewire.registros.welcome', compact('consulta'));
     }
 }

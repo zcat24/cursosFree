@@ -31,7 +31,12 @@ class roles extends Seeder
         Role::create([
             'name' => 'creador de cursos',
             'guard_name' => 'web'
-        ]);  
+        ]); 
+        
+        Role::create([
+            'name' => 'Rol sin privilegios',
+            'guard_name' => 'web'
+        ]);
 
     }
 }

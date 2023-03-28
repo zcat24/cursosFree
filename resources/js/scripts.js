@@ -30,3 +30,15 @@
     })
 );
 
+(
+    window.addEventListener('RegistroExito', event => {
+        Swal.fire({
+            position: 'top-center',
+            icon: 'success',
+            title: event.detail.mensaje,
+            showConfirmButton: false,
+            timer: 2500
+        })
+    })
+);
+

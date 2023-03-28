@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid content">
     <main>
         <div class="card mt-2">
             <div class="card-header">

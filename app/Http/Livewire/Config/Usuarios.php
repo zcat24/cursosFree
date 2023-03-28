@@ -30,29 +30,6 @@ class Usuarios extends Component
         $this->reset(['editId', 'username', 'nombres', 'cedula', 'fechaNacimiento', 'email', 'asignarRolId' ]);  
     }
 
-    // public function editarSede($id)
-    // {
-    //     $this->usuarioIdSede = $id;
-    //     $consulta = User::find($this->usuarioIdSede);
-    //     $this->nombres = $consulta->nombres;
-    //     if($consulta->sede_id != null){
-    //         $this->asignarSedeId = $consulta->sede_id;
-    //     }
-    // }
-
-    // public function asignarSede()
-    // {
-    //     if($this->asignarSedeId == ""){
-    //         $this->asignarSedeId = null;
-    //     }
-    //     $consulta = User::find($this->usuarioIdSede)->update([
-    //         'sede_id' => $this->asignarSedeId,
-    //     ]);
-    //     if ($consulta){
-    //         $this->dispatchBrowserEvent('GuardarCambios', ['mensaje'=>'Se ha asignado la sede satisfactoriamente', 'id'=>'cerrarsede']);
-    //     }
-    // }
-
     public function edit($id)
     {
         $this->editId = $id;

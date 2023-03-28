@@ -15,3 +15,52 @@ ul {
     margin: 0;
     padding: 0;
 }
+
+.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    margin-top: 5px;
+  }
+
+.message {
+    padding: 2px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.navbar-curso {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+}
+
+.content {
+    margin-top: 65px;
+}
+
+@media screen and (min-width: 390px) and (max-width: 724px) {
+    .header-cardm {
+    height: 165px; 
+    position: relative;
+    }
+    .header-bodym {
+        height: 165px; 
+        position: relative;
+    }
+}
+
+@media screen and (min-width: 900px) and (max-width: 2900px)  {
+    .header-cardm {
+    height: 165px; 
+    position: relative;
+    }
+    .header-bodym {
+        height: 130px; 
+        position: relative;
+    }
+}
