@@ -64,3 +64,14 @@ ul {
         position: relative;
     }
 }
+th{
+    text-align: center;
+}
+
+.derecha{
+    float: right;
+}
+
+.columna {
+    min-width: 110px;
+  }

@@ -9,15 +9,7 @@
                                 <h4 class="card-title"><Strong>Gestion de cursos</Strong></h4>
                             </div>
                             <div class="row">
-                                <div class="col-6">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control"
-                                            placeholder="Buscar nombre del estado o prefijo" aria-label="search"
-                                            aria-describedby="search-addon">
-                                        <span class="input-group-text" id="search-addon"><i
-                                                class="fa-solid fa-magnifying-glass"></i></span>
-                                    </div>
-                                </div>
+                                @livewire('datatables.registro-table')
                             </div>
                         </div>
                     </div>
