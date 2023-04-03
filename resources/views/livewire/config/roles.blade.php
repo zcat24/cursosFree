@@ -80,7 +80,7 @@
 
     <div wire:ignore.self class="modal fade" id="administrarRol" data-bs-backdrop="static" data-bs-keyboard="false"
         tabindex="-1" aria-labelledby="rolLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog-centered modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Asignar Permisos al rol {{$nombre}}</h5>

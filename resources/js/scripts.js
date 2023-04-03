@@ -42,3 +42,18 @@
     })
 );
 
+Livewire.on('abrirModal', function () {
+    $('#mi-modal').modal('show');
+    console.log('hola');
+});
+
+(
+    window.addEventListener('abrirModal', event => {
+        console.log('hola');
+        var modal = document.getElementById("btn-modal");
+        if (modal) {
+            modal.click();
+        }
+    })
+);
+

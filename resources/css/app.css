@@ -45,22 +45,22 @@ ul {
 
 @media screen and (min-width: 390px) and (max-width: 724px) {
     .header-cardm {
-    height: 165px; 
+    height: 165px;
     position: relative;
     }
     .header-bodym {
-        height: 165px; 
+        height: 165px;
         position: relative;
     }
 }
 
 @media screen and (min-width: 900px) and (max-width: 2900px)  {
     .header-cardm {
-    height: 165px; 
+    height: 165px;
     position: relative;
     }
     .header-bodym {
-        height: 130px; 
+        height: 130px;
         position: relative;
     }
 }
@@ -73,5 +73,11 @@ th{
 }
 
 .columna {
-    min-width: 110px;
+    text-align: center;
+}
+
+.modal-dialog-centered {
+    display: flex;
+    align-items: center;
+    min-height: calc(100% - 3.5rem);
   }

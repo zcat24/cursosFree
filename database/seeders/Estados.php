@@ -17,9 +17,19 @@ class Estados extends Seeder
             'nombre' => 'Solicitado',
             'activo' => true
         ]);
-        
+
         AdminEstados::create([
             'nombre' => 'Comprado',
+            'activo' => true
+        ]);
+
+        AdminEstados::create([
+            'nombre' => 'Matriculado',
+            'activo' => true
+        ]);
+
+        AdminEstados::create([
+            'nombre' => 'Cancelado',
             'activo' => true
         ]);
 

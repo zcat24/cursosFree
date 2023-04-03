@@ -37,7 +37,7 @@
                                 @endcan
                                 <th scope="col">Restablecer clave</th>
                                 <th scope="col">Estado</th>
-                                @can('editar usuarios')  
+                                @can('editar usuarios')
                                 <th scope="col" width="10%">Opciones</th>
                                 @endcan
                             </tr>
@@ -67,7 +67,7 @@
                                         <td><i class="fa-solid fa-circle-xmark fa-lg" style="color: red;"></i>
                                         </td>
                                     @endif
-                                    @can('editar usuarios')  
+                                    @can('editar usuarios')
                                     <td><button wire:click="edit({{ $usuario->id }})" data-bs-toggle="modal"
                                             data-bs-target="#staticBackdrop" class="btn btn-info"><i
                                                 class="fa-solid fa-user-pen fa-lg"></i></button>
@@ -140,7 +140,7 @@
                         <label for="formGroupExampleInput2" class="form-label">Activo:</label>
                         <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" wire:model="activo">
                     </div>
-                @endcan    
+                @endcan
                 @endif
             @endslot
             @slot('footer')
@@ -179,7 +179,7 @@
 
     <div wire:ignore.self class="modal fade" id="asignarRol" data-bs-backdrop="static" data-bs-keyboard="false"
         tabindex="-1" aria-labelledby="perfilLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog-centered modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Asignar Rol a {{$nombres}}</h5>

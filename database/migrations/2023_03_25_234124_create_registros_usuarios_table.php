@@ -21,12 +21,13 @@ return new class extends Migration
             $table->string('email');
             $table->unsignedBigInteger('curso_id');
             $table->unsignedBigInteger('estado_id');
+            $table->unsignedBigInteger('gestor_id')->nullable();
             $table->timestamps();
 
             $table->foreign('tipo_documento_id')->references('id')->on('tipos_documentos')->onDelete('cascade');
             $table->foreign('curso_id')->references('id')->on('cursos')->onDelete('cascade');
             $table->foreign('estado_id')->references('id')->on('estados')->onDelete('cascade');
-
+            $table->foreign('gestor_id')->references('id')->on('users')->onDelete('cascade');
 
         });
     }
