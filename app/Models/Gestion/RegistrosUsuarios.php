@@ -5,6 +5,7 @@ namespace App\Models\Gestion;
 use App\Models\Admin\Cursos;
 use App\Models\Admin\Estados;
 use App\Models\Admin\TiposDocumentos;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,5 +28,10 @@ class RegistrosUsuarios extends Model
     public function estado()
     {
         return $this->belongsTo(Estados::class, 'estado_id');
+    }
+
+    public function gestor()
+    {
+        return $this->belongsTo(User::class, 'gestor_id');
     }
 }

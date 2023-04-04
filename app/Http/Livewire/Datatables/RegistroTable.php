@@ -41,7 +41,7 @@ class RegistroTable extends DataTableComponent
             Column::make('Curso','curso.nombre')->sortable()->searchable()->collapseOnTablet(),
             Column::make('Estado','estado.nombre')->sortable()->searchable()->collapseOnTablet(),
             Column::make('Fecha Registro', 'created_at')->sortable()->format(fn($value) => $value->format('d/M/Y'))->collapseOnTablet(),
-            Column::make('Gestor', 'gestor_id')->sortable()->searchable()
+            Column::make('Gestor', 'gestor.nombres')->sortable()->searchable()
         ];
     }
 
