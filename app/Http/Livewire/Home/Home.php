@@ -11,7 +11,13 @@ class Home extends Component
 
     public function render()
     {
-        $gestores = User::where('activo', true)->get();
+        if(auth()->user()->hasRole('Super Administrador')){
+            $gestores = User::where('activo', true)->get();
+        }elseif (auth()->user()->hasPermissionTo('auto-asignar cursos')){
+            $gestores = User::where('id', auth()->user()->id)->get();
+        }else{
+            $gestores = [];
+        }
         return view('livewire.home.home', compact('gestores'));
     }
 

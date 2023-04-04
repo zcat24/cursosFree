@@ -16,10 +16,10 @@
                     </div>
                     <div class="col-md-3">
                         @can('crear usuario')
-                        <div class="text-end">
-                            <button class="btn btn-success" data-bs-toggle="modal"
-                                data-bs-target="#staticBackdrop">Crear usuario</button>
-                        </div>
+                            <div class="text-end">
+                                <button class="btn btn-success" data-bs-toggle="modal"
+                                    data-bs-target="#staticBackdrop">Crear usuario</button>
+                            </div>
                         @endcan
                     </div>
                 </div>
@@ -32,13 +32,16 @@
                                 <th scope="col">Nombres</th>
                                 <th scope="col">Cedula</th>
                                 <th scope="col">Correo</th>
+                                @can('asignar categorias')
+                                    <th scope="col">Asignar categoria</th>
+                                @endcan
                                 @can('asignar roles a usuarios')
-                                <th scope="col">Asignar perfil</th>
+                                    <th scope="col">Asignar perfil</th>
                                 @endcan
                                 <th scope="col">Restablecer clave</th>
                                 <th scope="col">Estado</th>
                                 @can('editar usuarios')
-                                <th scope="col" width="10%">Opciones</th>
+                                    <th scope="col" width="10%">Opciones</th>
                                 @endcan
                             </tr>
                         </thead>
@@ -50,11 +53,17 @@
                                     <td>{{ ucwords($usuario->nombres) }}</td>
                                     <td>{{ $usuario->cedula }}</td>
                                     <td>{{ $usuario->email }}</td>
+                                    @can('asignar categorias')
+                                        <td><button class="btn btn-success"
+                                                wire:click="editarCategoria({{ $usuario->id }})" data-bs-toggle="modal"
+                                                data-bs-target="#asignarCategoria"><i
+                                                    class="fa-solid fa-sheet-plastic fa-lg"></i></button></td>
+                                    @endcan
                                     @can('asignar roles a usuarios')
-                                    <td><button class="btn btn-primary" wire:click="editarRol({{$usuario->id}})" data-bs-toggle="modal"
-                                        data-bs-target="#asignarRol"><i
-                                                class="fa-solid fa-id-card-clip fa-lg"></i></button>
-                                    </td>
+                                        <td><button class="btn btn-primary" wire:click="editarRol({{ $usuario->id }})"
+                                                data-bs-toggle="modal" data-bs-target="#asignarRol"><i
+                                                    class="fa-solid fa-id-card-clip fa-lg"></i></button>
+                                        </td>
                                     @endcan
                                     <td><button wire:click="restablecerPassword({{ $usuario->id }})"
                                             class="btn btn-warning"><i
@@ -68,10 +77,10 @@
                                         </td>
                                     @endif
                                     @can('editar usuarios')
-                                    <td><button wire:click="edit({{ $usuario->id }})" data-bs-toggle="modal"
-                                            data-bs-target="#staticBackdrop" class="btn btn-info"><i
-                                                class="fa-solid fa-user-pen fa-lg"></i></button>
-                                    </td>
+                                        <td><button wire:click="edit({{ $usuario->id }})" data-bs-toggle="modal"
+                                                data-bs-target="#staticBackdrop" class="btn btn-info"><i
+                                                    class="fa-solid fa-user-pen fa-lg"></i></button>
+                                        </td>
                                     @endcan
                                 </tr>
                             @empty
@@ -85,6 +94,7 @@
             </div>
         </div>
     </main>
+    {{-- editar y crear usuario --}}
     @component('components.modal')
         @slot('title', $editId != null ? 'Editar Usuario' : 'Crear nuevo usuario')
         @slot('body')
@@ -135,12 +145,12 @@
                     @enderror
                 </div>
                 @if ($editId)
-                @can('desativar usuario')
-                    <div class="form-check form-switch mb-3">
-                        <label for="formGroupExampleInput2" class="form-label">Activo:</label>
-                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" wire:model="activo">
-                    </div>
-                @endcan
+                    @can('desativar usuario')
+                        <div class="form-check form-switch mb-3">
+                            <label for="formGroupExampleInput2" class="form-label">Activo:</label>
+                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" wire:model="activo">
+                        </div>
+                    @endcan
                 @endif
             @endslot
             @slot('footer')
@@ -150,57 +160,78 @@
             @endslot
         @endcomponent
     </form>
-
-    {{-- <div wire:ignore.self class="modal fade" id="asignarSede" data-bs-backdrop="static" data-bs-keyboard="false"
-        tabindex="-1" aria-labelledby="perfilLabel" aria-hidden="true">
-        <div class="modal-dialog">
+    {{-- categorias --}}
+    <div wire:ignore.self class="modal fade" id="asignarCategoria" data-bs-backdrop="static"
+        data-bs-keyboard="false" tabindex="-1" aria-labelledby="perfilLabel" aria-hidden="true">
+        <div class="modal-dialog-centered modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Asignar Sede a {{ucwords($nombres)}}</h5>
+                    <h5 class="modal-title">Asignar Categorias</h5>
                 </div>
                 <div class="modal-body">
-                    <form wire:submit.prevent="asignarSede">
-                        <select wire:model="asignarSedeId" class="form-select" aria-label="Default select example">
-                            <option selected value="">Seleccione una sede</option>
-                            @foreach ($consultaSede as $sede)
-                                <option value="{{ $sede->id }}">{{ ucfirst($sede->nombre) }}</option>
-                            @endforeach
-                        </select>
+                    @if (session()->has('asignarCategoria'))
+                        <div class="row">
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                {{ session('asignarCategoria') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                            </div>
+                        </div>
+                    @endif
+                    @if (session()->has('eliminarCategoria'))
+                        <div class="row">
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                {{ session('eliminarCategoria') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                            </div>
+                        </div>
+                    @endif
+                    <div class="row">
+                        @forelse ($consultaCategoria as $categoria)
+                            <div class="col-6">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"
+                                        wire:click="asignarCategoria({{ $categoria->id }})"
+                                        {{ $this->validarCategoria($editId, $categoria->id) }}>
+                                    <label class="form-check-label"
+                                        for="flexSwitchCheckDefault">{{ ucfirst($categoria->nombre) }}</label>
+                                </div>
+                            </div>
+                        @empty
+                            <p>No hay categorias registrados</p>
+                        @endforelse
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" id="cerrarsede"
-                        data-bs-dismiss="modal" wire:click="limpiar">Cerrar</button>
-                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button type="button" class="btn btn-secondary" id="cerrarsede" data-bs-dismiss="modal"
+                        wire:click="limpiar">Cerrar</button>
                 </div>
-            </form>
             </div>
         </div>
-    </div> --}}
-
+    </div>
+    {{-- asignar rol --}}
     <div wire:ignore.self class="modal fade" id="asignarRol" data-bs-backdrop="static" data-bs-keyboard="false"
         tabindex="-1" aria-labelledby="perfilLabel" aria-hidden="true">
         <div class="modal-dialog-centered modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Asignar Rol a {{$nombres}}</h5>
+                    <h5 class="modal-title">Asignar Rol a {{ $nombres }}</h5>
                 </div>
                 <div class="modal-body">
-                    {{-- <form wire:submit.prevent="asignarRol"> --}}
-                        <select wire:model="asignarRolId" class="form-select" aria-label="Default select example">
-                            <option selected value="">Seleccione un Rol</option>
-                            @foreach ($consultaRol as $rol)
-                                <option value="{{ $rol->id }}">{{ ucfirst($rol->name) }}</option>
-                            @endforeach
-                        </select>
+                    <select wire:model="asignarRolId" class="form-select" aria-label="Default select example">
+                        <option selected value="">Seleccione un Rol</option>
+                        @foreach ($consultaRol as $rol)
+                            <option value="{{ $rol->id }}">{{ ucfirst($rol->name) }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" id="cerrarRol"
-                        data-bs-dismiss="modal" wire:click="limpiar">Cerrar</button>
+                    <button type="button" class="btn btn-secondary" id="cerrarRol" data-bs-dismiss="modal"
+                        wire:click="limpiar">Cerrar</button>
                     <button type="submit" class="btn btn-primary" wire:click="asignarRol()">Guardar</button>
                 </div>
-            {{-- </form> --}}
             </div>
         </div>
     </div>
-
 </div>

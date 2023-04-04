@@ -85,7 +85,7 @@ class permisos extends Seeder
             'guard_name' => 'web'
         ]);
 
-    
+
         //permisos roles
         Permission::create([
             'name' => 'gestionar roles',
@@ -140,5 +140,22 @@ class permisos extends Seeder
             'name' => 'eliminar estados',
             'guard_name' => 'web'
         ]);
+
+        //administrar cursos y gestores
+        Permission::create([
+            'name' => 'ver todos estudiantes registrado',
+            'guard_name' => 'web'
+        ]);
+
+        Permission::create([
+            'name' => 'asignar masivamente los cursos a los gestores',
+            'guard_name' => 'web'
+        ]);
+
+        Permission::create([
+            'name' => 'auto-asignar cursos',
+            'guard_name' => 'web'
+        ]);
+
     }
 }

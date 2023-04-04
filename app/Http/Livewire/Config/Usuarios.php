@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Config;
 
+use App\Models\Admin\Categorias;
+use App\Models\Admin\users_categorias;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
@@ -14,7 +16,7 @@ class Usuarios extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    public $editId, $asignarRolId;
+    public $editId, $asignarRolId, $asignarCategoriaId;
 
     public $nombres, $username, $cedula, $fechaNacimiento, $email, $activo;
 
@@ -22,12 +24,13 @@ class Usuarios extends Component
     {
         $consulta = User::paginate(10);
         $consultaRol = Role::all();
-        return view('livewire.config.usuarios', compact('consulta', 'consultaRol'));
+        $consultaCategoria = Categorias::all();
+        return view('livewire.config.usuarios', compact('consulta', 'consultaRol', 'consultaCategoria'));
     }
 
     public function limpiar()
     {
-        $this->reset(['editId', 'username', 'nombres', 'cedula', 'fechaNacimiento', 'email', 'asignarRolId' ]);  
+        $this->reset(['editId', 'username', 'nombres', 'cedula', 'fechaNacimiento', 'email', 'asignarRolId' ]);
     }
 
     public function edit($id)
@@ -87,7 +90,7 @@ class Usuarios extends Component
             'nombres' => $this->nombres,
             'cedula' => $this->cedula,
             'fecha_nacimiento' => $this->fechaNacimiento,
-            'email' => $this->email, 
+            'email' => $this->email,
             'password' => Hash::make($this->cedula),
             'activo' => true
         ]);
@@ -104,7 +107,7 @@ class Usuarios extends Component
             'nombres' => $this->nombres,
             'cedula' => $this->cedula,
             'fecha_nacimiento' => $this->fechaNacimiento,
-            'email' => $this->email, 
+            'email' => $this->email,
             'activo' => $this->activo
         ]);
         if ($consulta){
@@ -132,11 +135,43 @@ class Usuarios extends Component
         if($this->asignarRolId){
             $role = Role::find($this->asignarRolId);
             $user->assignRole($role);
-            $this->dispatchBrowserEvent('GuardarCambios', 
-                            ['mensaje'=>'¡Se ha asignado el rol de '.ucfirst($role->name).' a '.ucwords($user->nombres), 
+            $this->dispatchBrowserEvent('GuardarCambios',
+                            ['mensaje'=>'¡Se ha asignado el rol de '.ucfirst($role->name).' a '.ucwords($user->nombres),
                             'id'=>'cerrarRol']);
         }else{
             $this->dispatchBrowserEvent('informacion', ['mensaje'=>'¡Usuario sin rol!', 'id'=>'cerrarRol', 'tipoMsj'=>'info']);
+        }
+    }
+
+    public function editarCategoria($id)
+    {
+        $this->editId = $id;
+    }
+
+    public function asignarCategoria($categoriaId)
+    {
+        $userCategoria = users_categorias::where('user_id', $this->editId)->where('categoria_id', $categoriaId)->first();
+        if($userCategoria){
+            $userCategoria->delete();
+            session()->flash('eliminarCategoria', '¡Se ha eliminado la categoria del usuario');
+        }else{
+            $asignacion = users_categorias::create([
+                'user_id' => $this->editId,
+                'categoria_id' => $categoriaId
+            ]);
+            session()->flash('asignarCategoria', '¡Se ha asignado la categoria al usuario');
+        }
+    }
+
+    public function validarCategoria($userId,$categoriaId)
+    {
+        if($userId && $categoriaId){
+            $UserCategoria = users_categorias::where('user_id', $userId)->where('categoria_id', $categoriaId)->first();
+            if($UserCategoria){
+                return 'checked';
+            }else{
+                return '';
+            }
         }
     }
 }

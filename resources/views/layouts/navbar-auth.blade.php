@@ -37,15 +37,19 @@
 </ul>
 <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
     <div class="offcanvas-header">
-        <a class="ms-3 navbar-brand font-monospace" href="{{ route('home') }}"> <img class="mover-derecha" style="margin-top:-5px"
-                class="fluid" src="{{ asset('img/curso.png') }}" alt="O" width="200px" /></a>
+        <a class="ms-3 navbar-brand font-monospace" href="{{ route('home') }}"> <img class="mover-derecha"
+                style="margin-top:-5px" class="fluid" src="{{ asset('img/curso.png') }}" alt="O"
+                width="200px" /></a>
     </div>
     <div class="offcanvas-body">
         <div class="offcanvas-body">
             <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page"
-                        href="{{ route('home') }}"><strong>Inicio</strong></a>
+                    <a class="nav-link active" aria-current="page" href="#"><strong>Inicio</strong></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('welcome') }}"><strong><i
+                                class="fa-solid fa-book-journal-whills fa-xl"></i> Cursos</strong></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('home') }}"><strong><i
@@ -78,17 +82,28 @@
                     </li>
                 @endcan
                 @can('gestionar curso')
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="offcanvasNavbarDropdown" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <strong><i class="fa-solid fa-folder-plus fa-xl"></i> Gestión de Contenido</strong>
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="offcanvasNavbarDropdown">
-                        @can('gestionar curso')
-                            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-video fa-xl"></i> Gestión de Cursos</a></li>
-                        @endcan
-                    </ul>
-                </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="offcanvasNavbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <strong><i class="fa-solid fa-folder-plus fa-xl"></i> Gestión de Contenido</strong>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="offcanvasNavbarDropdown">
+                            <li><a class="dropdown-item" href="{{ route('cursos') }}"><i
+                                        class="fa-solid fa-video fa-xl"></i> Gestión de Cursos</a></li>
+                        </ul>
+                    </li>
+                @endcan
+                @can('gestionar categorias')
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="offcanvasNavbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <strong><i class="fa-solid fa-book-bookmark fa-xl"></i> Gestión de Categorias</strong>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="offcanvasNavbarDropdown">
+                            <li><a class="dropdown-item" href="{{ route('categorias') }}"><i
+                                        class="fa-solid fa-video fa-xl"></i> Gestión de categorias</a></li>
+                        </ul>
+                    </li>
                 @endcan
                 @can('modulo de consultas')
                     <li class="nav-item dropdown">
