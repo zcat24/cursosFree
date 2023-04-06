@@ -44,12 +44,10 @@
 
 Livewire.on('abrirModal', function () {
     $('#mi-modal').modal('show');
-    console.log('hola');
 });
 
 (
     window.addEventListener('abrirModal', event => {
-        console.log('hola');
         var modal = document.getElementById("btn-modal");
         if (modal) {
             modal.click();
@@ -57,3 +55,26 @@ Livewire.on('abrirModal', function () {
     })
 );
 
+(
+    window.addEventListener('autoAsignarme', event => {
+        Swal.fire({
+            position: 'top-center',
+            icon: 'success',
+            title: 'Se ha realizado la asignacion de manera satisfactoriamente',
+            showConfirmButton: false,
+            timer: 2000
+        })
+    })
+);
+
+(
+    window.addEventListener('guardarCambios', event => {
+        Swal.fire({
+            position: 'top-center',
+            icon: 'success',
+            title: 'Se ha realizado los cambios de manera satisfactoriamente',
+            showConfirmButton: false,
+            timer: 2000
+        })
+    })
+);

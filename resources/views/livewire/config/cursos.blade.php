@@ -11,7 +11,7 @@
                     <div class="col-md-9">
                         <div class="input-group">
                             <input class="form-control border rounded-pill" type="search"
-                                placeholder="Buscar por nombre del permiso">
+                                placeholder="Buscar por nombre del curso">
                         </div>
                     </div>
                     @can('crear cursos')
@@ -38,14 +38,15 @@
                         </thead>
                         <tbody class="text-center">
                             @forelse ($consulta as $curso)
-                                <tr style="cursor:pointer;" wire:click="edit({{ $curso->id }})"
+                                <tr style="cursor:pointer;" wire:click="editar({{ $curso->id }})"
                                     data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ ucfirst($curso->categoria->nombre) }}</td>
                                     <td>{{ ucfirst($curso->nombre) }}</td>
                                     <td style="width: 570px;">{{ ucfirst($curso->descripcion) }}</td>
                                     <td>{{ $curso->imagen != null ? 'Si' : 'No' }}</td>
-                                    <td>{{ $curso->creador_id !=null ? ucfirst($curso->creador->nombres) : 'Administrativo' }}</td>
+                                    <td>{{ $curso->creador_id != null ? ucfirst($curso->creador->nombres) : 'Administrativo' }}
+                                    </td>
 
                                     @if ($curso->activo == 1)
                                         <td><i class="fa-solid fa-circle-check fa-xl" style="color: green;"></i>
@@ -67,52 +68,90 @@
             </div>
         </div>
     </main>
-    @component('components.modal')
-        @slot('title', $editId != null ? 'Editar Categoria' : 'Crear Nueva Categoria')
 
-        @slot('body')
+    <div wire:ignore.self class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog-centered modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ $editId != null ? 'Editar Curso' : 'Crear Nuevo Curso' }}</h5>
+                    @if ($editId)
+                        @can('eliminar cursos')
+                            <div class="form-check form-switch ">
+                                <label for="formGroupExampleInput2" class="form-label">Activo:</label>
+                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked"
+                                    wire:model="activo">
+                            </div>
+                        @endcan
+                    @endif
+                </div>
+                <div class="modal-body">
+                    @if (count($errors) > 0)
+                        @foreach ($errors->all() as $error)
+                            <div class="alert alert-danger mt-2" role="alert">
+                                {{ $error }}
+                            </div>
+                        @endforeach
+                    @endif
 
-            @if (count($errors) > 0)
-                @foreach ($errors->all() as $error)
-                    <div class="alert alert-danger mt-2" role="alert">
-                        {{ $error }}
-                    </div>
-                @endforeach
-            @endif
+                    <form wire:submit.prevent="save">
 
-            <form wire:submit.prevent="save">
+                        <div class="mb-3 row">
+                            <div class="col-md-2">
+                                <label for="name" class="col-sm-4 col-form-label"> <strong>Categoria:</strong>
+                                </label>
+                            </div>
+                            <div class="col-sm-10">
+                                <select wire:model="categoria" class="form-select" aria-label="Default select example">
+                                    <option selected value="">Seleccione una categoria</option>
+                                    @foreach ($consultaCategoria as $categoria)
+                                        <option value="{{ $categoria->id }}">{{ ucfirst($categoria->nombre) }}</option>
+                                    @endforeach
+                                </select>
+                                {{-- <input wire:model="categoria" type="text" class="form-control"> --}}
+                            </div>
+                        </div>
 
-                <div class="mb-3 row">
-                    <label for="name" class="col-sm-4 col-form-label"> <strong>Prefijo:</strong> </label>
-                    <div class="col-sm-8">
-                        <input wire:model="prefijo" type="text" class="form-control">
+                        <div class="mb-3 row">
+                            <div class="col-md-2">
+                                <label for="name" class="col-sm-4 col-form-label"> <strong>Nombre Curso:</strong>
+                                </label>
+                            </div>
+                            <div class="col-sm-10">
+                                <input wire:model="nombreCurso" type="text" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="mb-3 row ">
+                            <div class="col-md-2">
+                                <label for="exampleTextarea"><strong>Descripcion:</strong></label>
+                            </div>
+                            <div class="col-sm-10">
+                                <textarea wire:model="descripcion" class="form-control" id="exampleTextarea" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="mb-3 row ">
+                            <div class="col-md-2">
+                                <label for="exampleTextarea"><strong>Imagen del Curso:</strong></label>
+                            </div>
+                            <div class="col-sm-10">
+                                <div class="input-group mb-3">
+                                    <input wire:model="imagen" type="file" class="form-control" id="inputGroupFile02">
+                                    <label class="input-group-text" for="inputGroupFile02">Imagen</label>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="text-end">
+                        <button wire:click="limpiar" id="cerrarcurso" type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">Cerrar</button>
+                            @can('modificar cursos')
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        @endcan
                     </div>
                 </div>
-
-                <div class="mb-3 row">
-                    <label for="name" class="col-sm-4 col-form-label"> <strong>Nombre:</strong> </label>
-                    <div class="col-sm-8">
-                        <input wire:model="nombre" type="text" class="form-control">
-                    </div>
-                </div>
-
-                @if ($editId)
-                    @can('eliminar categorias')
-                    <div class="form-check form-switch mb-3">
-                        <label for="formGroupExampleInput2" class="form-label">Activo:</label>
-                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" wire:model="activo">
-                    </div>
-                    @endcan
-                @endif
-
-            @endslot
-            @slot('footer')
-                <div class="text-end">
-                    <button  id="cerrarCategoria" type="button" class="btn btn-secondary"
-                        data-bs-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary">Guardar</button>
-                </div>
-            @endslot
-        </form>
-    @endcomponent
+            </div>
+        </div>
+    </div>
 </div>

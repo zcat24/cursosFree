@@ -37,7 +37,7 @@ class Cursos extends Seeder
         AdminCursos::create([
             'categoria_id' => 1,
             'nombre' => 'Tecnología en gestión gastronómica y sommelier',
-            'descripcion' => '..un experto sommelier aprendiendo principios en enología, a catar vinos, bebidas espirituosas, licores digestivos y aperitivos; aprendiendo a seleccionar... Aprende sobre: Geografía Vitivinícola, Costos de alimentos y bebidas, Cocina internacional...',
+            'descripcion' => 'Como experto sommelier, aprenderá los principios fundamentales de la enología para catar vinos y bebidas espirituosas, así como licores digestivos y aperitivos. También aprenderá a seleccionar y combinar adecuadamente los vinos y licores con los alimentos para mejorar la experiencia gastronómica de sus clientes. Además, es importante comprender la geografía vitivinícola para poder identificar y seleccionar los mejores vinos de diferentes regiones del mundo.',
             'activo' => 1
         ]);
 

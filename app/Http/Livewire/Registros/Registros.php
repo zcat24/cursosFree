@@ -51,7 +51,7 @@ class Registros extends Component
         $this->validate($rules, $messages);
 
         if(RegistrosUsuarios::where('numero_documento',$this->numeroDocto)->where('curso_id', $this->cursoId)->exists()){
-            Session::flash('duplicado', 'Actualmente usted ya se enceuntra registrado en este curso.');
+            Session::flash('duplicado', 'Actualmente usted ya se encuentra registrado en este curso.');
         }else{
             $consulta = RegistrosUsuarios::create([
                 'tipo_documento_id' => $this->tipoDocumentoId,
@@ -61,10 +61,11 @@ class Registros extends Component
                 'telefono' => $this->telefono,
                 'email' => $this->correo,
                 'curso_id' => $this->cursoId,
-                'estado_id' => 1
+                'estado_id' => 1,
+                'registro_activo' => true
             ]);
             if($consulta){
-                $this->dispatchBrowserEvent('RegistroExito', ['mensaje'=>'Se realizado el registro del curso satisfatoriamente, pronto uno de nuestros asesores se podra en contacto con tigo']);
+                $this->dispatchBrowserEvent('RegistroExito', ['mensaje'=>'Se generado el registro del curso satisfatoriamente, pronto uno de nuestros asesores se pondra en contacto con tigo']);
                 $this->reset();
             }
         }

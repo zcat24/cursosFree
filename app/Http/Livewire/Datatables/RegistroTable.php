@@ -18,7 +18,7 @@ class RegistroTable extends DataTableComponent
     {
         $this->setPrimaryKey('id')
             ->setTableRowUrl(function($row){
-
+                return route('estudiantes', ['id'=>$row->id]);
             });
         $this->setSingleSortingDisabled();
         $this->setPerPageAccepted([1,2, 5, 10, 20, 30, -1]);
@@ -44,20 +44,20 @@ class RegistroTable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make('Id', 'id')->sortable()->searchable()->collapseOnTablet(),
-            Column::make('Tipo Documento','tipoDocumento.prefijo')->sortable()->searchable()->collapseOnTablet(),
-            Column::make('N° Documento','numero_documento')->sortable()->searchable()->collapseOnTablet(),
+            Column::make('Id', 'id')->sortable()->searchable()->collapseOnTablet()->format(fn($value)=> '<div style="min-width: 28px;">' . $value . '</div>')->html(),
+            Column::make('Tipo Documento','tipoDocumento.prefijo')->sortable()->searchable()->collapseOnTablet()->format(fn($value)=> '<div style="min-width: 125px;">' . $value . '</div>')->html(),
+            Column::make('N° Documento','numero_documento')->sortable()->searchable()->collapseOnTablet()->format(fn($value)=> '<div style="min-width: 110px;">' . $value . '</div>')->html(),
             Column::make('Nombres','nombres')->sortable()->searchable()->excludeFromColumnSelect()->format(
                 fn($value, $row, Column $column) => ucwords($row->nombres)
             ),
             Column::make('Apellidos','apellidos')->sortable()->searchable()->excludeFromColumnSelect()->format(
                 fn($value) => ucwords($value)
             ),
-            Column::make('Telefono','telefono')->sortable()->searchable()->collapseOnTablet(),
+            Column::make('Telefono','telefono')->sortable()->searchable()->collapseOnTablet()->format(fn($value)=> '<div style="min-width: 73px;">' . $value . '</div>')->html(),
             Column::make('Correo','email')->sortable()->searchable()->collapseOnTablet(),
             Column::make('Curso','curso.nombre')->sortable()->searchable()->collapseOnTablet(),
             Column::make('Estado','estado.nombre')->sortable()->searchable()->collapseOnTablet(),
-            Column::make('Fecha Registro', 'created_at')->sortable()->format(fn($value) => $value->format('d/M/Y'))->collapseOnTablet(),
+            Column::make('Fecha Registro', 'created_at')->sortable()->format(fn($value) => $value->format('d/M/Y'))->collapseOnTablet()->format(fn($value)=> '<div style="min-width: 25px;">' . $value . '</div>')->html(),
             Column::make('Gestor', 'gestor.nombres')->sortable()->searchable()->format(function($value) {
                 if (empty($value)) {
                     return 'No asignado';
@@ -78,15 +78,28 @@ class RegistroTable extends DataTableComponent
             foreach($consulta as $categoria){
                 array_push($categorias, $categoria->categoria_id);
             }
-            return RegistrosUsuarios::query()->wherehas('curso', function($query) use ($categorias){
-                $query->whereIn('categoria_id', $categorias);
-            })->orWhere('gestor_id', auth()->user()->id);
+            return RegistrosUsuarios::query()->Where(function($query) use ($categorias){
+                $query->where('gestor_id', auth()->user()->id)
+                        ->orWhereHas('curso', function($query) use ($categorias){
+                        $query->whereIn('categoria_id', $categorias);
+                });
+            })->where('registro_activo', true);
         }
     }
 
     public function eliminarMasiva()
     {
-        dd('hola');
+        if($this->getSelected()){
+            $consulta = RegistrosUsuarios::whereIn('id', $this->getSelected())->update([
+                'registro_activo' => false
+            ]);
+            if($consulta){
+                $this->dispatchBrowserEvent('GuardarCambios', ['mensaje'=>'¡Se ha eliminado los estudiantes de manera satisfactoria!' ]);
+                $this->clearSelected();
+            }
+        }else{
+            $this->dispatchBrowserEvent('informacion', ['mensaje'=>'¡Seleccione los estudiantes a eliminar!', 'id'=>'cerrarGestor', 'tipoMsj'=>'error']);
+        }
     }
 
     public function asiganrGestor()

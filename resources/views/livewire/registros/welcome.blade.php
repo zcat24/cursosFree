@@ -14,7 +14,7 @@
                                 <div class="card-header header-cardm">
                                     <div class=" mt-2 text-center">
                                         @if ($curso->imagen != null)
-                                            <img width="120px" src="{{ asset('img/mesa.png') }}" class="rounded-circle"
+                                            <img width="120px" src="{{ asset('storage/'.$curso->imagen ) }}" class="rounded-circle"
                                                 alt="...">
                                         @else
                                             <img width="100px" src="{{ asset('img/elearning.png') }}"

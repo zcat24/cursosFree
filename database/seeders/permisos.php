@@ -157,5 +157,10 @@ class permisos extends Seeder
             'guard_name' => 'web'
         ]);
 
+        Permission::create([
+            'name' => 'reasignar gestor',
+            'guard_name' => 'web'
+        ]);
+
     }
 }

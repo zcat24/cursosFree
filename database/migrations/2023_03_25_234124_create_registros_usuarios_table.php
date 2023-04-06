@@ -17,11 +17,12 @@ return new class extends Migration
             $table->bigInteger('numero_documento');
             $table->string('nombres');
             $table->string('apellidos');
-            $table->integer('telefono');
+            $table->bigInteger('telefono');
             $table->string('email');
             $table->unsignedBigInteger('curso_id');
             $table->unsignedBigInteger('estado_id');
             $table->unsignedBigInteger('gestor_id')->nullable();
+            $table->boolean('registro_activo');
             $table->timestamps();
 
             $table->foreign('tipo_documento_id')->references('id')->on('tipos_documentos')->onDelete('cascade');
