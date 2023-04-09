@@ -111,7 +111,7 @@
                             data-bs-toggle="dropdown" aria-expanded="false">
                             <strong><i class="fa-solid fa-magnifying-glass fa-xl"></i>Consultas</strong></a>
                         <ul class="dropdown-menu" aria-labelledby="offcanvasNavbarDropdown">
-                            <li><a class="dropdown-item" href="#"><i
+                            <li><a class="dropdown-item" href="{{ route('consultas')}}"><i
                                         class="fa-brands fa-searchengin fa-xl"></i>Generar Consultas</a></li>
                         </ul>
                     </li>
